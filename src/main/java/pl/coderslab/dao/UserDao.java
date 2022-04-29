@@ -107,4 +107,15 @@ public class UserDao {
         return tmpUsers;
     }
 
+
+    // metoda delete
+    public void delete(int userId) {
+        try (Connection conn = DBUtil.connect()) {
+            PreparedStatement preStatemant = conn.prepareStatement(DELETE_USER_QUERY);
+            preStatemant.setInt(1, userId);
+            preStatemant.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
