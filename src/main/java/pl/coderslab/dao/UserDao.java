@@ -5,6 +5,7 @@ import pl.coderslab.dbutil.DBUtil;
 import pl.coderslab.entity.User;
 
 import java.sql.*;
+import java.util.Arrays;
 
 
 public class UserDao {
@@ -61,6 +62,7 @@ public class UserDao {
         return null;
     }
 
+
     // metoda update
     public void update(User user) {
         try (Connection conn = DBUtil.connect()) {
@@ -76,5 +78,33 @@ public class UserDao {
     }
 
 
+    // metoda findAll - korzysta z metody addToArray
+    public User[] findAll() {
+        try (Connection conn = DBUtil.connect()) {
+            User[] arrayOfUsers = new User[0];
+            PreparedStatement preStatement = conn.prepareStatement(FIND_ALL_USERS_QUERY);
+            ResultSet rs = preStatement.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setUserName(rs.getString("username"));
+                user.setPassword(hashPassword(rs.getString("password")));
+                arrayOfUsers = addToArray(user, arrayOfUsers);
+            }
+            return arrayOfUsers;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // metoda addToArray
+    private User[] addToArray(User user, User[] users) {
+        User[] tmpUsers = Arrays.copyOf(users, users.length + 1);
+        tmpUsers[users.length] = user;
+        return tmpUsers;
+    }
 
 }

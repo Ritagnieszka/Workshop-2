@@ -29,19 +29,26 @@ public class MainDao {
 
 
         // test metody read
-        User userFromData = userDao.read(2);
-        if (userFromData == null){
-            System.out.println("User not exist");
-        }
-        System.out.println(userFromData);
+//        User userFromData = userDao.read(2);
+//        if (userFromData == null){
+//            System.out.println("User not exist");
+//        }
+//        System.out.println(userFromData);
 
 
         // test metody update
-        User userToUpdate = userDao.read(2);
-        userToUpdate.setUserName("Marek");
-        userToUpdate.setEmail("marek@wp.pl");
-        userToUpdate.setPassword("marek526");
-        userDao.update(userToUpdate);
+//        User userToUpdate = userDao.read(2);
+//        userToUpdate.setUserName("Marek");
+//        userToUpdate.setEmail("marek@wp.pl");
+//        userToUpdate.setPassword("marek526");
+//        userDao.update(userToUpdate);
+
+
+        // test metody findAll
+        User[] allUsers = userDao.findAll();
+        for (User user : allUsers) {
+            System.out.println(user.toString());
+        }
 
     }
 }
