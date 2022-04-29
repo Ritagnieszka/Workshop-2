@@ -41,7 +41,25 @@ public class UserDao {
     }
 
 
-
+    // metoda read
+    public User read(int userId) {
+        try (Connection conn = DBUtil.connect()) {
+            PreparedStatement preStatemant = conn.prepareStatement(READ_USER_QUERY);
+            preStatemant.setInt(1, userId);
+            ResultSet rs = preStatemant.executeQuery();
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setUserName(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 
